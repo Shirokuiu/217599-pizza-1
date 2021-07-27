@@ -1,8 +1,8 @@
 import {
   normalizeIngredients,
-  normalizeDoughs,
   normalizeSizes,
   normalizeSauces,
+  normalizeDoughs,
 } from "src/common";
 import pizza from "src/static/pizza.json";
 import {
@@ -11,7 +11,9 @@ import {
   SET_CURRENT_DOUGH,
   SET_CURRENT_SAUCE,
   SET_CURRENT_SIZE,
+  SET_DOUGHS,
   SET_PIZZA_NAME,
+  SET_SIZES,
 } from "src/store/modules/builder/mutation-types";
 
 const doughClassMap = {
@@ -33,21 +35,30 @@ const setCurrentAdditional = (arr, currentAdditional) =>
     isChecked: item.value.name === currentAdditional.name,
   }));
 
+let doughsCache = [];
+let sizesCache = [];
+
 const initialState = () => {
-  const doughs = normalizeDoughs(pizza.dough);
-  const sizes = normalizeSizes(pizza.sizes);
   const sauces = normalizeSauces(pizza.sauces);
   const ingredients = normalizeIngredients(pizza.ingredients);
 
   return {
-    doughs,
-    sizes,
+    doughs: doughsCache,
+    sizes: sizesCache,
     sauces,
     ingredients,
 
-    currentDough: getCurrentItem(doughs),
+    currentDough: {
+      image: "/public/img/dough-large.svg",
+      name: "large",
+      price: 300,
+    },
 
-    currentSize: getCurrentItem(sizes),
+    currentSize: {
+      image: "/public/img/diameter.svg",
+      multiplier: 2,
+      name: "normal",
+    },
 
     currentSauce: getCurrentItem(sauces),
 
@@ -113,6 +124,14 @@ export default {
       state = Object.assign(state, initialState());
     },
 
+    [SET_DOUGHS](state, doughs) {
+      state.doughs = doughs;
+    },
+
+    [SET_SIZES](state, sizes) {
+      state.sizes = sizes;
+    },
+
     [SET_CURRENT_DOUGH](state, currentDough) {
       state.currentDough = currentDough;
       state.doughs = setCurrentAdditional(state.doughs, currentDough);
@@ -140,6 +159,34 @@ export default {
   actions: {
     resetState({ commit }) {
       commit(RESET_STATE);
+    },
+
+    async getDoughs({ commit }) {
+      let doughs = [];
+
+      if (!doughsCache.length) {
+        doughs = await this.$api.dough.getDoughs();
+
+        doughs = normalizeDoughs(doughs);
+
+        doughsCache = doughs;
+      }
+
+      commit(SET_DOUGHS, doughsCache);
+    },
+
+    async getSizes({ commit }) {
+      let sizes = [];
+
+      if (!sizesCache.length) {
+        sizes = await this.$api.sizes.getSizes();
+
+        sizes = normalizeSizes(sizes);
+
+        sizesCache = sizes;
+      }
+
+      commit(SET_SIZES, sizesCache);
     },
 
     setCurrentDough({ commit }, currentDough) {

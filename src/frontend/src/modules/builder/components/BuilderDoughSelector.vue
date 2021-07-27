@@ -37,10 +37,12 @@ export default {
     ...mapState("Builder", ["doughs"]),
   },
 
+  created() {
+    this.getDoughs();
+  },
+
   methods: {
-    ...mapActions("Builder", {
-      setCurrentDough: "setCurrentDough",
-    }),
+    ...mapActions("Builder", ["setCurrentDough", "getDoughs"]),
 
     onDoughChange(currentDough) {
       this.setCurrentDough(currentDough);

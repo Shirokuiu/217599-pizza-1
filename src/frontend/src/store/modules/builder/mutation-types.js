@@ -1,4 +1,6 @@
 export const RESET_STATE = "RESET_STATE";
+export const SET_DOUGHS = "SET_DOUGHS";
+export const SET_SIZES = "SET_SIZES";
 export const SET_CURRENT_DOUGH = "SET_CURRENT_DOUGH";
 export const SET_CURRENT_SIZE = "SET_CURRENT_SIZE";
 export const SET_CURRENT_SAUCE = "SET_CURRENT_SAUCE";

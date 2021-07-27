@@ -36,10 +36,12 @@ export default {
     ...mapState("Builder", ["sizes"]),
   },
 
+  created() {
+    this.getSizes();
+  },
+
   methods: {
-    ...mapActions("Builder", {
-      setCurrentSize: "setCurrentSize",
-    }),
+    ...mapActions("Builder", ["setCurrentSize", "getSizes"]),
 
     onSizeChange(currentSize) {
       this.setCurrentSize(currentSize);

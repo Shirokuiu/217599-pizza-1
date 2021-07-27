@@ -4,10 +4,12 @@ import modules from "src/store/modules";
 import { DEC, INC, INC_DEC_INPUT_CHANGE } from "src/store/mutation-types";
 import { canIncOrDec, dec, inc, incDecInputChange } from "src/common/helpers";
 import { countAction } from "src/common/constants";
+import vuexPlugins from "src/plugins/vuexPlugins";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [vuexPlugins],
   modules,
   mutations: {
     [DEC](state, { module, entity, value }) {
