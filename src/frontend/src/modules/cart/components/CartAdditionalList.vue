@@ -2,7 +2,7 @@
   <ul class="additional-list">
     <CartAdditionalItem
       v-for="(additional, idx) of additionalItems"
-      :key="idx"
+      :key="additional.id"
       :additional-item="additional"
       @onCountUpdate="
         onCountUpdate($event, idx, 'Cart', 'additionalItems', countAction)
@@ -27,8 +27,13 @@ export default {
     ...mapState("Cart", ["additionalItems"]),
   },
 
+  created() {
+    this.getMisc();
+  },
+
   methods: {
     ...mapActions(["countAction"]),
+    ...mapActions("Cart", ["getMisc"]),
 
     onCountUpdate(countActionData, currentIndex, module, entity, action) {
       onCountUpdate(countActionData, currentIndex, module, entity, action);

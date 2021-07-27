@@ -1,4 +1,4 @@
-import axios from "src/plugins/axios";
+import axiosInstance from "src/plugins/axios";
 
 export default class IngredientsApiService {
   #resource;
@@ -8,7 +8,7 @@ export default class IngredientsApiService {
   }
 
   async getIngredients() {
-    const { data } = await axios.get(this.#resource);
+    const { data } = await axiosInstance.get(this.#resource);
 
     return data;
   }

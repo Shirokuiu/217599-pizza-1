@@ -4,10 +4,10 @@ import router from "src/router";
 import {
   ADD_TO_CART,
   EDIT_CART_ITEM,
+  SET_ADDITIONAL_ITEMS,
   TOGGLE_EDIT_MODE,
 } from "src/store/modules/cart/mutation-types";
 import { normalizeMisc } from "src/common";
-import misc from "src/static/misc";
 import { modIngredientMap } from "src/common/constants";
 
 const sizeMap = {
@@ -74,9 +74,11 @@ const buildNewCartItem = (rootState, rootGetters) => {
   };
 };
 
+let additionalItemsCache = [];
+
 const initialState = () => ({
   cartItems: [],
-  additionalItems: normalizeMisc(misc),
+  additionalItems: additionalItemsCache,
   editMode: {
     isEdit: false,
     currentEditableItemIndex: undefined,
@@ -98,6 +100,10 @@ export default {
   },
 
   mutations: {
+    [SET_ADDITIONAL_ITEMS](state, additionalItems) {
+      state.additionalItems = additionalItems;
+    },
+
     [ADD_TO_CART](state, cartItem) {
       state.cartItems.push(cartItem);
     },
@@ -118,6 +124,20 @@ export default {
   },
 
   actions: {
+    async getMisc({ commit }) {
+      let additionalItems = [];
+
+      if (!additionalItemsCache.length) {
+        additionalItems = await this.$api.misc.getMisc();
+
+        additionalItems = normalizeMisc(additionalItems);
+
+        additionalItemsCache = additionalItems;
+      }
+
+      commit(SET_ADDITIONAL_ITEMS, additionalItemsCache);
+    },
+
     addToCart({ commit, dispatch, state, rootState, rootGetters }) {
       const cartItem = buildNewCartItem(rootState, rootGetters);
 
