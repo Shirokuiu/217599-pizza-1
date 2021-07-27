@@ -2,8 +2,8 @@
   <div class="content__diameter">
     <AppWidget title="Выберите размер" class="diameter">
       <label
-        v-for="({ value, name, isChecked }, index) of sizes"
-        :key="index"
+        v-for="{ value, name, isChecked, id } of sizes"
+        :key="id"
         class="diameter__input"
         :class="`diameter__input--${value.name}`"
       >

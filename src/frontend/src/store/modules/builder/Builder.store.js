@@ -56,6 +56,7 @@ const initialState = () => {
     },
 
     currentSize: {
+      id: 2,
       image: "/public/img/diameter.svg",
       multiplier: 2,
       name: "normal",
