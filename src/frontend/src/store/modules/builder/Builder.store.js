@@ -49,6 +49,7 @@ const initialState = () => {
     ingredients,
 
     currentDough: {
+      id: 1,
       image: "/public/img/dough-large.svg",
       name: "large",
       price: 300,

@@ -10,14 +10,14 @@ const valueMap = [
 ];
 
 export const normalizeDoughs = (doughs) =>
-  doughs.map(({ description, price, image, name }, index) => {
+  doughs.map((dough, index) => {
     return {
-      description,
-      name,
+      ...dough,
       value: {
-        price,
-        image,
-        name: valueMap.find(({ name: nameMap }) => name === nameMap).value,
+        price: dough.price,
+        image: dough.image,
+        name: valueMap.find(({ name: nameMap }) => dough.name === nameMap)
+          .value,
       },
       isChecked: index === 0,
     };
