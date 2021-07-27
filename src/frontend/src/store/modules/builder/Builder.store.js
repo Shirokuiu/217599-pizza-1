@@ -13,6 +13,7 @@ import {
   SET_CURRENT_SIZE,
   SET_DOUGHS,
   SET_PIZZA_NAME,
+  SET_SAUCES,
   SET_SIZES,
 } from "src/store/modules/builder/mutation-types";
 
@@ -26,9 +27,6 @@ const multipleModMap = {
   3: "third",
 };
 
-const getCurrentItem = (arr) =>
-  arr.filter(({ isChecked }) => isChecked).map(({ value }) => value)[0];
-
 const setCurrentAdditional = (arr, currentAdditional) =>
   arr.map((item) => ({
     ...item,
@@ -37,15 +35,15 @@ const setCurrentAdditional = (arr, currentAdditional) =>
 
 let doughsCache = [];
 let sizesCache = [];
+let saucesCache = [];
 
 const initialState = () => {
-  const sauces = normalizeSauces(pizza.sauces);
   const ingredients = normalizeIngredients(pizza.ingredients);
 
   return {
     doughs: doughsCache,
     sizes: sizesCache,
-    sauces,
+    sauces: saucesCache,
     ingredients,
 
     currentDough: {
@@ -58,11 +56,15 @@ const initialState = () => {
     currentSize: {
       id: 2,
       image: "/public/img/diameter.svg",
-      multiplier: 2,
-      name: "normal",
+      multiplier: 3,
+      name: "big",
     },
 
-    currentSauce: getCurrentItem(sauces),
+    currentSauce: {
+      id: 1,
+      name: "tomato",
+      price: 50,
+    },
 
     pizzaName: "",
   };
@@ -134,6 +136,10 @@ export default {
       state.sizes = sizes;
     },
 
+    [SET_SAUCES](state, sauces) {
+      state.sauces = sauces;
+    },
+
     [SET_CURRENT_DOUGH](state, currentDough) {
       state.currentDough = currentDough;
       state.doughs = setCurrentAdditional(state.doughs, currentDough);
@@ -189,6 +195,20 @@ export default {
       }
 
       commit(SET_SIZES, sizesCache);
+    },
+
+    async getSauces({ commit }) {
+      let sauces = [];
+
+      if (!saucesCache.length) {
+        sauces = await this.$api.sauces.getSauces();
+
+        sauces = normalizeSauces(sauces);
+
+        saucesCache = sauces;
+      }
+
+      commit(SET_SAUCES, saucesCache);
     },
 
     setCurrentDough({ commit }, currentDough) {

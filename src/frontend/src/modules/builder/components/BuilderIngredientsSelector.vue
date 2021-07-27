@@ -4,14 +4,14 @@
       <div class="ingridients__sauce">
         <p>Основной соус:</p>
         <AppRadioButton
-          v-for="({ value, name, isChecked }, index) of sauces"
-          :key="index"
+          v-for="{ value, name, isChecked, id } of sauces"
+          :key="id"
           class="ingridients__input"
           radio-name="sauce"
           :value="value"
           :is-checked="isChecked"
           :name="name"
-          @onRadioChange="onSauceChange"
+          @onRadioChange="onSauceChange($event, id)"
         />
       </div>
 
@@ -38,13 +38,15 @@ export default {
     ...mapState("Builder", ["sauces"]),
   },
 
-  methods: {
-    ...mapActions("Builder", {
-      setCurrentSauce: "setCurrentSauce",
-    }),
+  created() {
+    this.getSauces();
+  },
 
-    onSauceChange(currentSauce) {
-      this.setCurrentSauce(currentSauce);
+  methods: {
+    ...mapActions("Builder", ["setCurrentSauce", "getSauces"]),
+
+    onSauceChange({ name, price }, id) {
+      this.setCurrentSauce({ name, price, id });
     },
   },
 };
