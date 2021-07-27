@@ -1,10 +1,11 @@
+import { cloneDeep } from "lodash";
+
 import {
   normalizeIngredients,
   normalizeSizes,
   normalizeSauces,
   normalizeDoughs,
 } from "src/common";
-import pizza from "src/static/pizza.json";
 import {
   EDIT_INGREDIENTS,
   RESET_STATE,
@@ -12,6 +13,7 @@ import {
   SET_CURRENT_SAUCE,
   SET_CURRENT_SIZE,
   SET_DOUGHS,
+  SET_INGREDIENTS,
   SET_PIZZA_NAME,
   SET_SAUCES,
   SET_SIZES,
@@ -36,15 +38,14 @@ const setCurrentAdditional = (arr, currentAdditional) =>
 let doughsCache = [];
 let sizesCache = [];
 let saucesCache = [];
+let ingredientsCache = [];
 
 const initialState = () => {
-  const ingredients = normalizeIngredients(pizza.ingredients);
-
   return {
     doughs: doughsCache,
     sizes: sizesCache,
     sauces: saucesCache,
-    ingredients,
+    ingredients: cloneDeep(ingredientsCache),
 
     currentDough: {
       id: 1,
@@ -140,6 +141,10 @@ export default {
       state.sauces = sauces;
     },
 
+    [SET_INGREDIENTS](state, ingredients) {
+      state.ingredients = ingredients;
+    },
+
     [SET_CURRENT_DOUGH](state, currentDough) {
       state.currentDough = currentDough;
       state.doughs = setCurrentAdditional(state.doughs, currentDough);
@@ -209,6 +214,20 @@ export default {
       }
 
       commit(SET_SAUCES, saucesCache);
+    },
+
+    async getIngredients({ commit }) {
+      let ingredients = [];
+
+      if (!saucesCache.length) {
+        ingredients = await this.$api.ingredients.getIngredients();
+
+        ingredients = normalizeIngredients(ingredients);
+
+        ingredientsCache = ingredients;
+      }
+
+      commit(SET_INGREDIENTS, cloneDeep(ingredientsCache));
     },
 
     setCurrentDough({ commit }, currentDough) {

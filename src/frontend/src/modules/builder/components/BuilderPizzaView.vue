@@ -5,7 +5,7 @@
     <ul class="ingridients__list">
       <BuilderPizzaViewItem
         v-for="(ingredient, index) of ingredients"
-        :key="index"
+        :key="ingredient.id"
         :ingredient="ingredient"
         :idx="index"
       >
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import BuilderPizzaViewItem from "src/modules/builder/components/BuilderPizzaViewItem";
 
 export default {
@@ -27,6 +27,14 @@ export default {
 
   computed: {
     ...mapState("Builder", ["ingredients"]),
+  },
+
+  created() {
+    this.getIngredients();
+  },
+
+  methods: {
+    ...mapActions("Builder", ["getIngredients"]),
   },
 };
 </script>
