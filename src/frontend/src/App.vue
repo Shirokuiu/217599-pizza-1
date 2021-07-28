@@ -7,6 +7,9 @@
 </template>
 
 <script>
+import JWTService from "src/services/JWTService";
+import { mapActions } from "vuex";
+
 export default {
   name: "App",
 
@@ -14,6 +17,18 @@ export default {
     layout() {
       return () => import("./layouts/AppLayout.vue");
     },
+  },
+
+  created() {
+    if (JWTService.getToken()) {
+      this.$api.auth.setAuthHeader();
+      this.toggleIsAuth(true);
+      this.getMe();
+    }
+  },
+
+  methods: {
+    ...mapActions("Auth", ["getMe", "toggleIsAuth"]),
   },
 };
 </script>

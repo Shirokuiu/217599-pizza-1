@@ -9,7 +9,7 @@ axiosInstance.interceptors.response.use(
   (e) => {
     const defaultMessage = "Возникла ошибка при выполнении запроса к серверу";
     console.error(e?.response?.data?.error?.message || defaultMessage);
-    throw new Error(e);
+    return Promise.reject(e);
   }
 );
 
