@@ -1,6 +1,6 @@
 <template>
   <input
-    type="text"
+    :type="type"
     :name="name"
     :placeholder="placeholder"
     :value="value"
@@ -22,6 +22,11 @@ export default {
       default: "",
     },
 
+    type: {
+      type: String,
+      default: "text",
+    },
+
     name: {
       type: String,
       default: "name",
@@ -29,7 +34,7 @@ export default {
 
     placeholder: {
       type: String,
-      default: "Ввежите текст",
+      default: "Введите текст",
     },
   },
 

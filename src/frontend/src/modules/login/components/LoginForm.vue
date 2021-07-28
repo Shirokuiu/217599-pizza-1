@@ -3,14 +3,24 @@
     <div class="sign-form__input">
       <label class="input">
         <span>E-mail</span>
-        <input type="email" name="email" placeholder="example@mail.ru" />
+        <AppInputText
+          :value="email"
+          type="email"
+          name="email"
+          placeholder="example@mail.ru"
+        />
       </label>
     </div>
 
     <div class="sign-form__input">
       <label class="input">
         <span>Пароль</span>
-        <input type="password" name="pass" placeholder="***********" />
+        <AppInputText
+          :value="password"
+          type="password"
+          name="password"
+          placeholder="***********"
+        />
       </label>
     </div>
     <button type="submit" class="button">Авторизоваться</button>
@@ -18,7 +28,20 @@
 </template>
 
 <script>
+import AppInputText from "src/common/components/AppInputText";
+
 export default {
   name: "LoginForm",
+
+  components: {
+    AppInputText,
+  },
+
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
 };
 </script>
