@@ -1,7 +1,7 @@
 import {
   SET_USER,
   TOGGLE_IS_AUTH,
-} from "src/store/modules/login/mutation-types";
+} from "src/store/modules/auth/mutation-types";
 import JWTService from "src/services/JWTService";
 import router from "src/router";
 
