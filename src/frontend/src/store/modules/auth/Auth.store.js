@@ -58,13 +58,20 @@ export default {
       commit(TOGGLE_IS_AUTH, isAuth);
     },
 
-    async getMe({ commit }) {
+    async getMe({ commit, dispatch }) {
       try {
         const currentUser = await this.$api.auth.getMe();
 
         commit(SET_USER, currentUser);
       } catch (e) {
-        console.log(e);
+        const { response } = e;
+
+        if (response.status === 401) {
+          JWTService.destroyToken();
+          this.$api.auth.setAuthHeader();
+          dispatch("toggleIsAuth", false);
+          commit(SET_USER, undefined);
+        }
       }
     },
   },
