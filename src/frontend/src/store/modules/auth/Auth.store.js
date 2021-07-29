@@ -67,10 +67,7 @@ export default {
         const { response } = e;
 
         if (response.status === 401) {
-          JWTService.destroyToken();
-          this.$api.auth.setAuthHeader();
-          dispatch("toggleIsAuth", false);
-          commit(SET_USER, undefined);
+          dispatch("logout");
         }
       }
     },
