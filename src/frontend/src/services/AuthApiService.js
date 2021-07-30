@@ -16,7 +16,7 @@ export default class AuthApiService {
   }
 
   async logout() {
-    const { data } = await axios.delete("//logout");
+    const { data } = await axios.delete("/logout");
 
     return data;
   }
