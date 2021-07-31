@@ -28,6 +28,14 @@ export default {
   },
 
   actions: {
+    checkAuth({ dispatch }) {
+      if (JWTService.getToken()) {
+        this.$api.auth.setAuthHeader();
+        dispatch("toggleIsAuth", true);
+        dispatch("getMe");
+      }
+    },
+
     async login({ dispatch }, body) {
       try {
         const { token } = await this.$api.auth.login(body);

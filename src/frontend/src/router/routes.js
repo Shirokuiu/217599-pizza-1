@@ -1,3 +1,5 @@
+import { auth } from "src/middlewares";
+
 export default [
   {
     path: "/",
@@ -23,10 +25,16 @@ export default [
     path: "/orders",
     name: "Orders",
     component: () => import("../views/Orders"),
+    meta: {
+      middlewares: [auth],
+    },
   },
   {
     path: "/profile",
     name: "Profile",
     component: () => import("../views/Profile"),
+    meta: {
+      middlewares: [auth],
+    },
   },
 ];
