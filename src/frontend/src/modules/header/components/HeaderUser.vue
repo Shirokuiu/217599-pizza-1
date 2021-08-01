@@ -1,5 +1,5 @@
 <template>
-  <div class="header__user">
+  <div>
     <HeaderUserNoLogin v-if="!isAuth" />
     <HeaderUserLoggedIn v-if="isAuth" />
   </div>
