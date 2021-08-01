@@ -12,6 +12,9 @@ const initialState = () => {
   };
 };
 
+const UNAUTHORIZED = 401;
+const PROTECTED_ROUTE_NAMES = ["Orders", "Profile"];
+
 export default {
   namespaced: true,
 
@@ -57,6 +60,10 @@ export default {
         this.$api.auth.setAuthHeader();
         dispatch("toggleIsAuth", false);
         commit(SET_USER, undefined);
+
+        if (PROTECTED_ROUTE_NAMES.includes(router.history.current.name)) {
+          router.push("/");
+        }
       } catch (e) {
         return Promise.reject(e);
       }
@@ -74,7 +81,7 @@ export default {
       } catch (e) {
         const { response } = e;
 
-        if (response.status === 401) {
+        if (response.status === UNAUTHORIZED) {
           JWTService.destroyToken();
           this.$api.auth.setAuthHeader();
           dispatch("toggleIsAuth", false);
