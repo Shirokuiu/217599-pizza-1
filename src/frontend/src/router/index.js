@@ -19,7 +19,6 @@ router.beforeEach(async (to, from, next) => {
   if (!isFirstLoad) {
     // NOTE Делаю из за того что сначала должен отмутироваться стор и только после этого запуститься мидлвары
     await store.dispatch("Auth/checkAuth");
-
     isFirstLoad = true;
   }
 

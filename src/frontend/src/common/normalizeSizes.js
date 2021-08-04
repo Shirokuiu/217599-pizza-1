@@ -14,7 +14,7 @@ const valueMap = [
 ];
 
 export const normalizeSizes = (sizes) =>
-  sizes.map((size, index) => ({
+  sizes.map((size) => ({
     ...size,
     value: {
       image: size.image,
@@ -23,5 +23,5 @@ export const normalizeSizes = (sizes) =>
         ({ multiplier: multiplierMap }) => size.multiplier === multiplierMap
       ).value,
     },
-    isChecked: index === 1,
+    isChecked: size.id === 2,
   }));

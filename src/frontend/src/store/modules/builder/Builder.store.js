@@ -49,8 +49,8 @@ const initialState = () => {
 
     currentDough: {
       id: 1,
-      image: "/public/img/dough-large.svg",
-      name: "large",
+      image: "/public/img/dough-light.svg",
+      name: "light",
       price: 300,
     },
 
@@ -63,7 +63,7 @@ const initialState = () => {
 
     currentSauce: {
       id: 1,
-      name: "tomato",
+      name: "creamy",
       price: 50,
     },
 
