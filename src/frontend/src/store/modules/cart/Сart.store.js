@@ -4,7 +4,9 @@ import router from "src/router";
 import {
   ADD_TO_CART,
   EDIT_CART_ITEM,
+  RESET_STATE,
   SET_ADDITIONAL_ITEMS,
+  SET_FORM,
   TOGGLE_EDIT_MODE,
 } from "src/store/modules/cart/mutation-types";
 import { normalizeMisc } from "src/common";
@@ -26,6 +28,9 @@ const sauceMap = {
   creamy: "кремовый",
 };
 
+const getActiveIngredients = (ingredients) =>
+  ingredients.filter(({ count }) => count);
+
 const buildDescriptionsFilling = ({
   sizeName,
   doughName,
@@ -34,8 +39,7 @@ const buildDescriptionsFilling = ({
 }) => [
   `${sizeMap[sizeName]}, ${doughMap[doughName]}`,
   `Соус: ${sauceMap[sauceName]}`,
-  `Начинка: ${ingredients
-    .filter(({ count }) => count)
+  `Начинка: ${getActiveIngredients(ingredients)
     .map(({ mod }) =>
       modIngredientMap.find(({ value }) => mod === value).name.toLowerCase()
     )
@@ -74,10 +78,65 @@ const buildNewCartItem = (rootState, rootGetters) => {
   };
 };
 
+const buildOrderAddress = (state) => {
+  return Object.keys(state.form.$params).reduce(
+    (obj, v) => {
+      obj[v].value = state.form[v].$model;
+
+      return obj;
+    },
+    {
+      street: {
+        value: "",
+      },
+      building: {
+        value: "",
+      },
+      flat: {
+        value: "",
+      },
+      comment: {
+        value: "",
+      },
+    }
+  );
+};
+
+const buildOrderPizzas = (state) =>
+  state.cartItems.map(({ name, sauce, dough, size, count, ingredients }) => ({
+    name: name,
+    sauceId: sauce.id,
+    doughId: dough.id,
+    sizeId: size.id,
+    quantity: count,
+    ingredients: getActiveIngredients(ingredients).map(({ id, count }) => ({
+      ingredientId: id,
+      quantity: count,
+    })),
+  }));
+
+const buildOrderMisc = (state) =>
+  getActiveIngredients(state.additionalItems).map(({ id, count }) => ({
+    miscId: id,
+    quantity: count,
+  }));
+
+const buildOrder = (state, rootState) => {
+  const userId = rootState.Auth.user ? rootState.Auth.user.id : null;
+
+  return {
+    userId,
+    address: buildOrderAddress(state),
+    misc: buildOrderMisc(state),
+    pizzas: buildOrderPizzas(state),
+  };
+};
+
 let additionalItemsCache = [];
 
 const initialState = () => ({
   cartItems: [],
+  form: undefined,
   additionalItems: additionalItemsCache,
   editMode: {
     isEdit: false,
@@ -100,8 +159,18 @@ export default {
   },
 
   mutations: {
+    // NOTE ESLint глючит
+    // eslint-disable-next-line no-unused-vars
+    [RESET_STATE](state) {
+      state = Object.assign(state, initialState());
+    },
+
     [SET_ADDITIONAL_ITEMS](state, additionalItems) {
       state.additionalItems = additionalItems;
+    },
+
+    [SET_FORM](state, form) {
+      state.form = form;
     },
 
     [ADD_TO_CART](state, cartItem) {
@@ -124,6 +193,10 @@ export default {
   },
 
   actions: {
+    resetState({ commit }) {
+      commit(RESET_STATE);
+    },
+
     async getMisc({ commit }) {
       let additionalItems = [];
 
@@ -163,8 +236,24 @@ export default {
       router.push("/cart");
     },
 
-    submitOrder() {
-      router.push("/");
+    setForm({ commit }, form) {
+      commit(SET_FORM, form);
+    },
+
+    async submitOrder({ state, rootState }) {
+      state.form.$touch();
+
+      if (!state.form.$invalid) {
+        const dataForBack = buildOrder(state, rootState);
+
+        try {
+          await this.$api.orders.addOrder(dataForBack);
+
+          return Promise.resolve();
+        } catch (e) {
+          return Promise.reject(e);
+        }
+      }
     },
 
     toggleEditMode(

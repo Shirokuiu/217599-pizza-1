@@ -1,5 +1,5 @@
 <template>
-  <a style="cursor: pointer">
+  <a style="cursor: pointer" v-if="user">
     <picture>
       <source
         type="image/webp"

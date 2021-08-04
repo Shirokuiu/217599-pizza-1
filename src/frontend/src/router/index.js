@@ -12,9 +12,16 @@ const router = new Router({
   routes,
 });
 
+// NOTE Чтобы при смене роута не дергался store.dispatch
+let isFirstLoad = false;
+
 router.beforeEach(async (to, from, next) => {
-  // NOTE Делаю из за того что сначала должен отмутироваться стор и только после этого запуститься мидлвары
-  await store.dispatch("Auth/checkAuth");
+  if (!isFirstLoad) {
+    // NOTE Делаю из за того что сначала должен отмутироваться стор и только после этого запуститься мидлвары
+    await store.dispatch("Auth/checkAuth");
+
+    isFirstLoad = true;
+  }
 
   const middlewares = to.meta.middlewares;
 

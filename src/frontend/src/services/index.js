@@ -4,6 +4,8 @@ import SauceApiService from "src/services/SauceApiService";
 import IngredientsApiService from "src/services/IngredientsApiService";
 import MiscApiService from "src/services/MiscApiService";
 import AuthApiService from "src/services/AuthApiService";
+import AddressApiService from "src/services/AddressApiService";
+import OrdersApiService from "src/services/OrdersApiService";
 
 const resources = {
   DOUGH: "dough",
@@ -12,6 +14,8 @@ const resources = {
   INGREDIENTS: "ingredients",
   MISC: "misc",
   AUTH: "auth",
+  ADDRESSES: "addresses",
+  ORDERS: "orders",
 };
 
 export const createResources = () => {
@@ -22,5 +26,7 @@ export const createResources = () => {
     [resources.INGREDIENTS]: new IngredientsApiService(resources.INGREDIENTS),
     [resources.MISC]: new MiscApiService(resources.MISC),
     [resources.AUTH]: new AuthApiService(),
+    [resources.ADDRESSES]: new AddressApiService(resources.ADDRESSES),
+    [resources.ORDERS]: new OrdersApiService(resources.ORDERS),
   };
 };

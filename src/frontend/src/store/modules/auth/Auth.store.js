@@ -31,11 +31,11 @@ export default {
   },
 
   actions: {
-    checkAuth({ dispatch }) {
+    async checkAuth({ dispatch }) {
       if (JWTService.getToken()) {
         this.$api.auth.setAuthHeader();
-        dispatch("toggleIsAuth", true);
         dispatch("getMe");
+        dispatch("toggleIsAuth", true);
       }
     },
 
