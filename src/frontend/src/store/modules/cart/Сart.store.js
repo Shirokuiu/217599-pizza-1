@@ -79,27 +79,11 @@ const buildNewCartItem = (rootState, rootGetters) => {
 };
 
 const buildOrderAddress = (state) => {
-  return Object.keys(state.form.$params).reduce(
-    (obj, v) => {
-      obj[v].value = state.form[v].$model;
+  return Object.keys(state.form.$params).reduce((obj, v) => {
+    obj[v] = state.form[v].$model;
 
-      return obj;
-    },
-    {
-      street: {
-        value: "",
-      },
-      building: {
-        value: "",
-      },
-      flat: {
-        value: "",
-      },
-      comment: {
-        value: "",
-      },
-    }
-  );
+    return obj;
+  }, {});
 };
 
 const buildOrderPizzas = (state) =>
