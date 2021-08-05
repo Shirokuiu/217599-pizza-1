@@ -28,6 +28,8 @@ const sauceMap = {
   creamy: "кремовый",
 };
 
+const NO_ADDRESS_STATUS = "Получу сам";
+
 const getActiveIngredients = (ingredients) =>
   ingredients.filter(({ count }) => count);
 
@@ -79,6 +81,10 @@ const buildNewCartItem = (rootState, rootGetters) => {
 };
 
 const buildOrderAddress = (state) => {
+  if (state.form.comment.$model === NO_ADDRESS_STATUS) {
+    return null;
+  }
+
   return Object.keys(state.form.$params).reduce((obj, v) => {
     obj[v] = state.form[v].$model;
 
