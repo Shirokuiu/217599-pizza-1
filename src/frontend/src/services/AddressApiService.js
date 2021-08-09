@@ -10,4 +10,10 @@ export default class AddressApiService {
   addAddress(body) {
     return axios.post(this.#resources, body);
   }
+
+  async getAddresses() {
+    const { data } = await axios.get(this.#resources);
+
+    return data;
+  }
 }
