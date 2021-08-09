@@ -9,16 +9,26 @@
     </div>
 
     <div class="order__button">
-      <button type="button" class="button button--border">Удалить</button>
+      <AppBtn text="Удалить" class="button--border" />
+
+      <!--      <button type="button" class="button button&#45;&#45;border">Удалить</button>-->
     </div>
     <div class="order__button">
-      <button type="button" class="button">Повторить</button>
+      <AppBtn text="Повторить" />
+
+      <!--      <button type="button" class="button">Повторить</button>-->
     </div>
   </div>
 </template>
 
 <script>
+import AppBtn from "src/common/components/AppBtn";
+
 export default {
   name: "OrderItemControls",
+
+  components: {
+    AppBtn,
+  },
 };
 </script>

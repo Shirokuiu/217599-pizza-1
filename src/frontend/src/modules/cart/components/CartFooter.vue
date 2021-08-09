@@ -13,9 +13,7 @@
     </div>
 
     <div class="footer__submit">
-      <button type="button" class="button" @click="$emit('submitOrder')">
-        Оформить заказ
-      </button>
+      <AppBtn text="Оформить заказ" @onCLickBtn="$emit('submitOrder')" />
     </div>
   </section>
 </template>
@@ -23,9 +21,14 @@
 <script>
 import { mapGetters } from "vuex";
 import { numberWithSpace } from "src/common/helpers";
+import AppBtn from "src/common/components/AppBtn";
 
 export default {
   name: "CartFooter",
+
+  components: {
+    AppBtn,
+  },
 
   computed: {
     ...mapGetters("Cart", ["totalPriceCart"]),

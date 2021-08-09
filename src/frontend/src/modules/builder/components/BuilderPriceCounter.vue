@@ -31,14 +31,12 @@
 
       <div class="content__result">
         <p>Итого: {{ normalizedTotalPrice }} ₽</p>
-        <button
-          type="button"
-          class="button button--disabled"
-          :disabled="!this.isIngredientsExist || pizzaName.length === 0"
-          @click="onCLickBtn"
-        >
-          Готовьте!
-        </button>
+
+        <AppBtn
+          :isDisabled="!this.isIngredientsExist || pizzaName.length === 0"
+          text="Готовьте!"
+          @onCLickBtn="onCLickBtn"
+        />
       </div>
     </div>
   </AppDrop>
@@ -49,6 +47,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 import { numberWithSpace } from "src/common/helpers";
 import AppDrop from "src/common/components/AppDrop";
 import AppInputText from "src/common/components/AppInputText";
+import AppBtn from "src/common/components/AppBtn";
 
 export default {
   name: "BuilderPriceCounter",
@@ -56,6 +55,7 @@ export default {
   components: {
     AppDrop,
     AppInputText,
+    AppBtn,
   },
 
   computed: {
