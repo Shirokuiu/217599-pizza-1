@@ -86,7 +86,9 @@ const buildOrderAddress = (state) => {
   }
 
   return Object.keys(state.form.$params).reduce((obj, v) => {
-    obj[v] = state.form[v].$model;
+    if (state.form[v].$model.length) {
+      obj[v] = state.form[v].$model;
+    }
 
     return obj;
   }, {});
@@ -244,6 +246,8 @@ export default {
           return Promise.reject(e);
         }
       }
+
+      return Promise.reject();
     },
 
     toggleEditMode(

@@ -4,11 +4,10 @@
       <label class="input">
         <span>E-mail</span>
         <AppInputText
-          :value="email"
           type="email"
           name="email"
           placeholder="example@mail.ru"
-          @onInput="setEmail"
+          v-model="email"
         />
         <span v-if="!$v.email.required && $v.email.$dirty"
           >Поле обязательно для заполнения</span
@@ -23,11 +22,10 @@
       <label class="input">
         <span>Пароль</span>
         <AppInputText
-          :value="password"
           type="password"
           name="password"
           placeholder="***********"
-          @onInput="setPassword"
+          v-model="password"
         />
         <span v-if="!$v.password.required && $v.password.$dirty"
           >Поле обязательно для заполнения</span
@@ -73,16 +71,6 @@ export default {
 
   methods: {
     ...mapActions("Auth", ["login"]),
-
-    setEmail(value) {
-      this.email = value;
-      this.$v.email.$touch();
-    },
-
-    setPassword(value) {
-      this.password = value;
-      this.$v.password.$touch();
-    },
 
     async onSubmit() {
       this.$v.$touch();

@@ -51,10 +51,14 @@ export default {
   methods: {
     ...mapActions("Cart", ["submitOrder", "resetState"]),
 
-    submit() {
-      this.submitOrder().then(() => {
+    async submit() {
+      try {
+        await this.submitOrder();
+
         this.openSuccessPopup();
-      });
+      } catch (e) {
+        //
+      }
     },
 
     openSuccessPopup() {

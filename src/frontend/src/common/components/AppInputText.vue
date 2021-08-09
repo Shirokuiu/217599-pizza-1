@@ -16,6 +16,11 @@ const DEFAULT_DEBOUNCE = 300;
 export default {
   name: "AppInputText",
 
+  model: {
+    prop: "value",
+    event: "onInput",
+  },
+
   props: {
     value: {
       type: String,

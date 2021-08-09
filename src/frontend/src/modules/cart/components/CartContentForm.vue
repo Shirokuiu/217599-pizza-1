@@ -21,12 +21,7 @@
       <div class="cart-form__input">
         <label class="input">
           <span>Улица*</span>
-          <AppInputText
-            placeholder=""
-            name="street"
-            :value="street"
-            @onInput="setStreet"
-          />
+          <AppInputText placeholder="" name="street" v-model="street" />
           <span v-if="!$v.street.required && $v.street.$dirty"
             >Обязательно для заполнения</span
           >
@@ -36,13 +31,8 @@
       <div class="cart-form__input cart-form__input--small">
         <label class="input">
           <span>Дом*</span>
-          <AppInputText
-            placeholder=""
-            name="house"
-            :value="building"
-            @onInput="setBuilding"
-          />
-          <span v-if="!$v.street.required && $v.street.$dirty"
+          <AppInputText placeholder="" name="house" v-model="building" />
+          <span v-if="!$v.building.required && $v.building.$dirty"
             >Обязательно для заполнения</span
           >
         </label>
@@ -50,13 +40,11 @@
 
       <div class="cart-form__input cart-form__input--small">
         <label class="input">
-          <span>Квартира</span>
-          <AppInputText
-            placeholder=""
-            name="apartment"
-            :value="flat"
-            @onInput="setFlat"
-          />
+          <span>Квартира*</span>
+          <AppInputText placeholder="" name="apartment" v-model="flat" />
+          <span v-if="!$v.flat.required && $v.flat.$dirty"
+            >Обязательно для заполнения</span
+          >
         </label>
       </div>
     </div>
@@ -65,7 +53,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { required, requiredIf } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 import AppInputText from "src/common/components/AppInputText";
 import AppSelect from "src/common/components/AppSelect";
 
@@ -117,24 +105,6 @@ export default {
       this.$v.comment?.$touch();
     },
 
-    setStreet(street) {
-      this.street = street;
-
-      this.$v.street?.$touch();
-    },
-
-    setBuilding(building) {
-      this.building = building;
-
-      this.$v.building?.$touch();
-    },
-
-    setFlat(flat) {
-      this.flat = flat;
-
-      this.$v.flat?.$touch();
-    },
-
     makeComments() {
       return [
         {
@@ -182,9 +152,7 @@ export default {
         },
 
         flat: {
-          required: requiredIf(() => {
-            return false;
-          }),
+          required,
         },
       };
     },
