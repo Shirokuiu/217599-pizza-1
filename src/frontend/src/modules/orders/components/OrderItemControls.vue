@@ -10,13 +10,9 @@
 
     <div class="order__button">
       <AppBtn text="Удалить" class="button--border" />
-
-      <!--      <button type="button" class="button button&#45;&#45;border">Удалить</button>-->
     </div>
     <div class="order__button">
       <AppBtn text="Повторить" />
-
-      <!--      <button type="button" class="button">Повторить</button>-->
     </div>
   </div>
 </template>
