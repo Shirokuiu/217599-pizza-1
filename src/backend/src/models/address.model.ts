@@ -13,8 +13,9 @@ export class Address extends Entity {
 
   @property({
     type: 'string',
+    required: true,
   })
-  name?: string;
+  name: string;
 
   @property({
     type: 'string',
