@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import BuilderPizzaViewItem from "src/modules/builder/components/BuilderPizzaViewItem";
 
 export default {
@@ -27,14 +27,6 @@ export default {
 
   computed: {
     ...mapState("Builder", ["ingredients"]),
-  },
-
-  created() {
-    this.getIngredients();
-  },
-
-  methods: {
-    ...mapActions("Builder", ["getIngredients"]),
   },
 };
 </script>

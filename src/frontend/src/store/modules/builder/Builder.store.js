@@ -219,7 +219,7 @@ export default {
     async getIngredients({ commit }) {
       let ingredients = [];
 
-      if (!saucesCache.length) {
+      if (!ingredientsCache.length) {
         ingredients = await this.$api.ingredients.getIngredients();
 
         ingredients = normalizeIngredients(ingredients);

@@ -38,12 +38,8 @@ export default {
     ...mapState("Builder", ["sauces"]),
   },
 
-  created() {
-    this.getSauces();
-  },
-
   methods: {
-    ...mapActions("Builder", ["setCurrentSauce", "getSauces"]),
+    ...mapActions("Builder", ["setCurrentSauce"]),
 
     onSauceChange({ name, price }, id) {
       this.setCurrentSauce({ name, price, id });

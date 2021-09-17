@@ -18,8 +18,21 @@ export default {
     },
   },
 
+  created() {
+    this.getDoughs();
+    this.getSizes();
+    this.getSauces();
+    this.getIngredients();
+  },
+
   methods: {
     ...mapActions("Auth", ["getMe", "toggleIsAuth"]),
+    ...mapActions("Builder", [
+      "getDoughs",
+      "getSizes",
+      "getSauces",
+      "getIngredients",
+    ]),
   },
 };
 </script>

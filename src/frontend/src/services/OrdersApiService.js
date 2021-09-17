@@ -10,4 +10,10 @@ export default class OrdersApiService {
   async addOrder(body) {
     return await axios.post(this.#resources, body);
   }
+
+  async getOrders() {
+    const { data } = await axios.get(this.#resources);
+
+    return data;
+  }
 }

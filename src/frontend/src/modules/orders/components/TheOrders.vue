@@ -19,12 +19,13 @@
         <h1 class="title title--big">История заказов</h1>
       </div>
 
-      <OrderItem />
+      <OrderItem v-for="order of orders" :key="order.id" />
     </div>
   </main>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 import OrderItem from "src/modules/orders/components/OrderItem";
 
 export default {
@@ -32,6 +33,18 @@ export default {
 
   components: {
     OrderItem,
+  },
+
+  computed: {
+    ...mapState("Orders", ["orders"]),
+  },
+
+  created() {
+    this.getOrders();
+  },
+
+  methods: {
+    ...mapActions("Orders", ["getOrders"]),
   },
 };
 </script>
