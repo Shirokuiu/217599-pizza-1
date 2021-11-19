@@ -31,9 +31,8 @@ export class Address extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  flat: string;
+  flat?: string;
 
   @property({
     type: 'string',

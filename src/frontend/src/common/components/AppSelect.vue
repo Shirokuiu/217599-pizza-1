@@ -1,7 +1,7 @@
 <template>
-  <select :name="name" class="select" @change="onChange">
-    <option v-for="{ id, value, name } of options" :value="value" :key="id">
-      {{ name }}
+  <select :value="selectedId" class="select" @change="onSelectChange">
+    <option v-for="option in options" :key="option.id" :value="option.id">
+      {{ option[keyOptionName] }}
     </option>
   </select>
 </template>
@@ -11,38 +11,34 @@ export default {
   name: "AppSelect",
 
   props: {
+    options: {
+      type: Array,
+      required: true,
+      validation: () => [],
+    },
+
     name: {
       type: String,
       default: "select",
     },
 
-    options: {
-      type: Array,
-      default: () => [
-        {
-          id: 1,
-          value: 1,
-          name: "Выбор",
-        },
-        {
-          id: 2,
-          value: 2,
-          name: "Выбор 2",
-        },
-        {
-          id: 3,
-          value: 3,
-          name: "Выбор 3",
-        },
-      ],
+    keyOptionName: {
+      type: String,
+      default: "name",
+    },
+
+    selectedId: {
+      type: Number,
+      default: undefined,
     },
   },
 
   methods: {
-    onChange(evt) {
-      const { target } = evt;
+    onSelectChange(evt) {
+      const valueInt = parseInt(evt.target.value, 10);
+      const currentOption = this.options.find(({ id }) => id === valueInt);
 
-      this.$emit("selectChange", target.value);
+      this.$emit("onChange", currentOption);
     },
   },
 };

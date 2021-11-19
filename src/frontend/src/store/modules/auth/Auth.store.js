@@ -2,15 +2,13 @@ import {
   SET_USER,
   TOGGLE_IS_AUTH,
 } from "src/store/modules/auth/mutation-types";
-import JWTService from "src/services/JWTService";
+import { JWT } from "@/services";
 import router from "src/router";
 
-const initialState = () => {
-  return {
-    isAuth: false,
-    user: undefined,
-  };
-};
+const initialState = () => ({
+  isAuth: false,
+  user: undefined,
+});
 
 const UNAUTHORIZED = 401;
 const PROTECTED_ROUTE_NAMES = ["Orders", "Profile"];
@@ -32,7 +30,7 @@ export default {
 
   actions: {
     async checkAuth({ dispatch }) {
-      if (JWTService.getToken()) {
+      if (JWT.getToken()) {
         this.$api.auth.setAuthHeader();
         dispatch("getMe");
         dispatch("toggleIsAuth", true);
@@ -43,7 +41,7 @@ export default {
       try {
         const { token } = await this.$api.auth.login(body);
 
-        JWTService.saveToken(token);
+        JWT.saveToken(token);
         this.$api.auth.setAuthHeader();
         dispatch("toggleIsAuth", true);
         dispatch("getMe");
@@ -56,7 +54,7 @@ export default {
     async logout({ dispatch, commit }) {
       try {
         await this.$api.auth.logout();
-        JWTService.destroyToken();
+        JWT.destroyToken();
         this.$api.auth.setAuthHeader();
         dispatch("toggleIsAuth", false);
         commit(SET_USER, undefined);
@@ -82,7 +80,7 @@ export default {
         const { response } = e;
 
         if (response.status === UNAUTHORIZED) {
-          JWTService.destroyToken();
+          JWT.destroyToken();
           this.$api.auth.setAuthHeader();
           dispatch("toggleIsAuth", false);
           commit(SET_USER, undefined);

@@ -1,6 +1,6 @@
 <template>
   <div
-    :draggable="true"
+    :draggable="draggable"
     @dragstart.self="onDrag"
     @dragover.prevent
     @dragenter.prevent
@@ -10,18 +10,20 @@
 </template>
 
 <script>
-import { MOVE, DATA_TRANSFER_PAYLOAD } from "src/common/constants";
+import { DATA_TRANSFER_PAYLOAD, MOVE } from "@/common/constants";
 
 export default {
   name: "AppDrag",
-
   props: {
     transferData: {
       type: Object,
       required: true,
     },
+    draggable: {
+      type: Boolean,
+      default: true,
+    },
   },
-
   methods: {
     onDrag({ dataTransfer }) {
       dataTransfer.effectAllowed = MOVE;

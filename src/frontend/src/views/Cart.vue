@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TheCart from "src/modules/cart/components/TheCart";
+import TheCart from "@/modules/cart/components/TheCart";
 
 export default {
   name: "Cart",

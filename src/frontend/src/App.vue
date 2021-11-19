@@ -1,42 +1,45 @@
 <template>
-  <div id="app">
-    <component :is="layout">
-      <router-view />
-    </component>
+  <div class="app__wrap">
+    <TheHeader />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import TheHeader from "@/modules/header/components/TheHeader";
 import { mapActions } from "vuex";
 
 export default {
   name: "App",
 
-  computed: {
-    layout() {
-      return () => import("./layouts/AppLayout.vue");
-    },
+  components: {
+    TheHeader,
   },
 
   created() {
-    this.getDoughs();
-    this.getSizes();
-    this.getSauces();
-    this.getIngredients();
+    this.fetchDoughs();
+    this.fetchSizes();
+    this.fetchSauces();
+    this.fetchIngredients();
   },
 
   methods: {
-    ...mapActions("Auth", ["getMe", "toggleIsAuth"]),
-    ...mapActions("Builder", [
-      "getDoughs",
-      "getSizes",
-      "getSauces",
-      "getIngredients",
-    ]),
+    ...mapActions("Auth", ["checkIsAuth"]),
+    ...mapActions("Builder/BuilderDough", ["fetchDoughs"]),
+    ...mapActions("Builder/BuilderSize", ["fetchSizes"]),
+    ...mapActions("Builder/BuilderSauce", ["fetchSauces"]),
+    ...mapActions("Builder/BuilderIngredients", ["fetchIngredients"]),
   },
 };
 </script>
 
 <style lang="scss">
 @import "~@/assets/scss/app";
+
+// NOTE: Иначе едет верстка в корзине
+.app__wrap {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
 </style>

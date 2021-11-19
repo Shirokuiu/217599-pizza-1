@@ -1,0 +1,40 @@
+export const buildNewAddressForm = () => ({
+  name: {
+    name: "name",
+    value: "",
+    placeholder: "Введите название адреса",
+    label: "Название адреса*",
+    errorText: "Обязательно для заполнения",
+    isRequired: true,
+  },
+  street: {
+    name: "street",
+    value: "",
+    placeholder: "Введите название улицы",
+    label: "Улица*",
+    errorText: "Обязательно для заполнения",
+    isRequired: true,
+  },
+  building: {
+    name: "building",
+    value: "",
+    placeholder: "Введите номер дома",
+    label: "Дом*",
+    errorText: "Обязательно для заполнения",
+    isRequired: true,
+  },
+  flat: {
+    name: "flat",
+    value: "",
+    placeholder: "Введите № квартиры",
+    label: "Квартира",
+    isRequired: false,
+  },
+  comment: {
+    name: "comment",
+    value: "",
+    placeholder: "Введите комментарий",
+    label: "Комментарий",
+    isRequired: false,
+  },
+});

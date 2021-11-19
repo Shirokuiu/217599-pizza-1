@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 import routes from "./routes";
-import { middlewarePipeline } from "src/middlewares";
 import store from "src/store";
+import middlewarePipeline from "@/middlewares/middleware-pipeline";
 
 Vue.use(Router);
 
@@ -19,6 +19,7 @@ router.beforeEach(async (to, from, next) => {
   if (!isFirstLoad) {
     // NOTE Делаю из за того что сначала должен отмутироваться стор и только после этого запуститься мидлвары
     await store.dispatch("Auth/checkAuth");
+
     isFirstLoad = true;
   }
 

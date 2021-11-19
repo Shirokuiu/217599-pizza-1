@@ -16,11 +16,11 @@ export type TokenObject = {
  */
 export interface RefreshTokenService {
   /**
-   * Generate a refresh token, bind it with the given user profile + access
+   * Generate a refresh token, bind it with the given user login + access
    * token, then store them in backend.
    */
   generateToken(userProfile: UserProfile, token: string): Promise<TokenObject>;
-  
+
   /**
    * Refresh the access token bound with the given refresh token.
    */

@@ -15,15 +15,15 @@ import {
   put,
   del,
   requestBody,
-  response
-} from '@loopback/rest'
+  response,
+} from '@loopback/rest';
 import {Dough} from '../models';
 import {DoughRepository} from '../repositories';
 
 export class DoughController {
   constructor(
     @repository(DoughRepository)
-    public doughRepository : DoughRepository,
+    public doughRepository: DoughRepository,
   ) {}
 
   // @post('/dough')

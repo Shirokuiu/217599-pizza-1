@@ -9,32 +9,30 @@
       Перейти к конструктору<br />чтоб собрать ещё одну пиццу
     </p>
     <div class="footer__price">
-      <b>Итого: {{ normalizedTotalPriceCart }} ₽</b>
+      <b>Итого: {{ totalPrice }} ₽</b>
     </div>
 
     <div class="footer__submit">
-      <AppBtn text="Оформить заказ" @onCLickBtn="$emit('submitOrder')" />
+      <button @click="onSubmitClick" type="button" class="button">
+        Оформить заказ
+      </button>
     </div>
   </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { numberWithSpace } from "src/common/helpers";
-import AppBtn from "src/common/components/AppBtn";
 
 export default {
-  name: "CartFooter",
-
-  components: {
-    AppBtn,
-  },
+  name: "CartFooter.vue",
 
   computed: {
-    ...mapGetters("Cart", ["totalPriceCart"]),
+    ...mapGetters("Cart", ["totalPrice"]),
+  },
 
-    normalizedTotalPriceCart() {
-      return numberWithSpace(this.totalPriceCart);
+  methods: {
+    onSubmitClick() {
+      this.$emit("onSubmit");
     },
   },
 };

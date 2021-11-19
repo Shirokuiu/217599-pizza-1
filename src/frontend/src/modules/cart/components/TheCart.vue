@@ -6,70 +6,75 @@
           <h1 class="title title--big">Корзина</h1>
         </div>
 
-        <CartContentEmpty v-if="!cartItems.length"></CartContentEmpty>
+        <CartEmpty v-if="!pizzaItems.length" />
 
-        <CartContent v-if="cartItems.length" />
+        <template v-if="pizzaItems.length">
+          <CartList />
+
+          <CartAdditionalList />
+
+          <CartMakeOrder />
+        </template>
       </div>
     </main>
-    <CartFooter v-if="cartItems.length" @submitOrder="submit" />
-    <CartSuccessPopup v-if="isSuccessPopupShow" @close="closeSuccessPopup" />
+    <CartFooter v-if="pizzaItems.length" @onSubmit="onSubmit" />
+    <CartOrderSuccessPopup
+      v-if="isSuccessPopupShow"
+      @onClose="closePopup"
+      @onSubmit="closeAndRedirect"
+    />
   </form>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import router from "src/router";
-import CartContent from "src/modules/cart/components/CartContent";
-import CartFooter from "src/modules/cart/components/CartFooter";
-import CartContentEmpty from "src/modules/cart/components/CartContentEmpty";
-import CartSuccessPopup from "src/modules/cart/components/CartSuccessPopup";
-
-const ORDER_PATH = "/orders";
-const MAIN_PATH = "/";
+import CartEmpty from "@/modules/cart/components/CartEmpty";
+import CartList from "@/modules/cart/components/CartPizzaList";
+import CartAdditionalList from "@/modules/cart/components/CartAdditionalList";
+import CartMakeOrder from "@/modules/cart/components/CartMakeOrder";
+import CartFooter from "@/modules/cart/components/CartFooter";
+import CartOrderSuccessPopup from "@/modules/cart/components/CartOrderSuccessPopup";
+import { mapActions, mapState } from "vuex";
+import router from "@/router";
 
 export default {
   name: "TheCart",
 
   components: {
-    CartContent,
+    CartEmpty,
+    CartList,
+    CartAdditionalList,
+    CartMakeOrder,
     CartFooter,
-    CartContentEmpty,
-    CartSuccessPopup,
-  },
-
-  data() {
-    return {
-      isSuccessPopupShow: false,
-    };
+    CartOrderSuccessPopup,
   },
 
   computed: {
-    ...mapState("Cart", ["cartItems"]),
+    ...mapState("Cart/CartPizzaList", ["pizzaItems"]),
+    ...mapState("Cart", ["isSuccessPopupShow"]),
     ...mapState("Auth", ["isAuth"]),
   },
 
   methods: {
-    ...mapActions("Cart", ["submitOrder", "resetState"]),
+    ...mapActions("Cart", ["makeOrder", "toggleSuccessPopup"]),
 
-    async submit() {
-      try {
-        await this.submitOrder();
+    closePopup() {
+      this.toggleSuccessPopup(false);
+    },
 
-        this.openSuccessPopup();
-      } catch (e) {
-        //
+    closeAndRedirect() {
+      this.toggleSuccessPopup(false);
+
+      if (this.isAuth) {
+        router.push("user/orders");
+
+        return;
       }
+
+      router.push("/");
     },
 
-    openSuccessPopup() {
-      this.isSuccessPopupShow = true;
-    },
-
-    closeSuccessPopup() {
-      const route = this.isAuth ? ORDER_PATH : MAIN_PATH;
-
-      this.resetState();
-      router.push(route);
+    onSubmit() {
+      this.makeOrder();
     },
   },
 };

@@ -1,18 +1,19 @@
-import { auth } from "src/middlewares";
+// eslint-disable-next-line no-unused-vars
+import { isAuth, isLogout } from "@/middlewares";
 
 export default [
   {
     path: "/",
-    name: "Index",
+    name: "IndexHome",
     component: () => import("../views/Index"),
-    meta: {
-      layout: "TheBuilder",
-    },
     children: [
       {
         path: "/login",
-        name: "Login",
+        name: "LoginPopup",
         component: () => import("../views/Login"),
+        meta: {
+          middlewares: [isLogout],
+        },
       },
     ],
   },
@@ -22,19 +23,27 @@ export default [
     component: () => import("../views/Cart"),
   },
   {
-    path: "/orders",
-    name: "Orders",
-    component: () => import("../views/Orders"),
-    meta: {
-      middlewares: [auth],
-    },
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: () => import("../views/Profile"),
-    meta: {
-      middlewares: [auth],
-    },
+    path: "/user",
+    redirect: "/user/profile",
+    name: "User",
+    component: () => import("../views/User"),
+    children: [
+      {
+        path: "/user/orders",
+        name: "Orders",
+        component: () => import("../views/Orders"),
+        meta: {
+          middlewares: [isAuth],
+        },
+      },
+      {
+        path: "/user/profile",
+        name: "Profile",
+        component: () => import("../views/Profile"),
+        meta: {
+          middlewares: [isAuth],
+        },
+      },
+    ],
   },
 ];

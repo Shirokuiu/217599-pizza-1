@@ -1,50 +1,30 @@
 <template>
-  <main class="layout">
-    <div class="layout__sidebar sidebar">
-      <router-link to="/" class="logo layout__logo">
-        <img
-          src="../../../assets/img/logo.svg"
-          alt="V!U!E! Pizza logo"
-          width="90"
-          height="40"
-        />
-      </router-link>
-
-      <a class="layout__link layout__link--active" href="#">История заказов</a>
-      <a class="layout__link" href="#">Мои данные</a>
+  <div class="layout__content">
+    <div class="layout__title">
+      <h1 class="title title--big">История заказов</h1>
     </div>
 
-    <div class="layout__content">
-      <div class="layout__title">
-        <h1 class="title title--big">История заказов</h1>
-      </div>
-
-      <OrderItem v-for="order of orders" :key="order.id" />
-    </div>
-  </main>
+    <OrdersList />
+  </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import OrderItem from "src/modules/orders/components/OrderItem";
+import OrdersList from "@/modules/orders/components/OrdersList";
+import { mapActions } from "vuex";
 
 export default {
   name: "TheOrders",
 
   components: {
-    OrderItem,
-  },
-
-  computed: {
-    ...mapState("Orders", ["orders"]),
+    OrdersList,
   },
 
   created() {
-    this.getOrders();
+    this.init();
   },
 
   methods: {
-    ...mapActions("Orders", ["getOrders"]),
+    ...mapActions("Orders/OrdersList", ["init"]),
   },
 };
 </script>

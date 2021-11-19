@@ -1,29 +1,31 @@
 <template>
   <div class="counter">
     <button
+      :class="{ 'counter__button--disabled': isDisableMinus }"
+      :disabled="isDisableMinus"
+      @click="onCountEvt(CountEvent.DEC, count)"
       type="button"
-      class="counter__button counter__button--disabled counter__button--minus"
-      @click="dec"
-      :disabled="disableDec"
+      class="counter__button counter__button--minus"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
     <input
+      :value="count"
+      @change="onCountEvt(CountEvent.CHANGE, $refs.input.value)"
       type="text"
       name="counter"
       class="counter__input"
-      :value="count"
-      @change="onInputChange"
+      ref="input"
     />
     <button
-      type="button"
+      :disabled="isDisablePlus"
       :class="[
-        'counter__button',
-        'counter__button--plus',
-        incMod ? `counter__button--${incMod}` : undefined,
+        isDisablePlus ? 'counter__button--disabled' : undefined,
+        color ? `counter__button--${color}` : undefined,
       ]"
-      @click="inc"
-      :disabled="disableInc"
+      @click="onCountEvt(CountEvent.INC, count)"
+      type="button"
+      class="counter__button counter__button--plus"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -31,62 +33,48 @@
 </template>
 
 <script>
-import { appCounterIncMod, countAction } from "src/common/constants";
+import { CountEvents } from "@/common/constants";
 
-const AppCounterIncMod = appCounterIncMod;
+const colorMods = {
+  none: undefined,
+  orange: "orange",
+};
 
 export default {
   name: "AppCounter",
 
   props: {
-    incMod: {
-      type: String,
-      default: AppCounterIncMod.none,
-      validator: (v) => AppCounterIncMod[v],
-    },
     count: {
-      type: Number,
-      required: true,
+      type: [Number, String],
+      default: 0,
     },
-    disableInc: {
+    isDisablePlus: {
       type: Boolean,
       default: false,
     },
-    disableDec: {
+    isDisableMinus: {
       type: Boolean,
-      default: false,
+      default: true,
+    },
+    color: {
+      type: String,
+      default: colorMods.none,
+      validation: (color) => colorMods[color],
     },
   },
 
   data() {
     return {
-      DEFAULT_INC_MODE: "none",
+      CountEvent: Object.freeze(CountEvents),
     };
   },
 
   methods: {
-    inc() {
-      this.$emit("onCountUpdate", {
-        action: countAction.INC,
-        value: null,
-      });
-    },
-
-    dec() {
-      this.$emit("onCountUpdate", {
-        action: countAction.DEC,
-        value: null,
-      });
-    },
-
-    onInputChange(evt) {
-      this.$emit("onCountUpdate", {
-        action: countAction.INC_DEC_INPUT_CHANGE,
-        value: evt.target.value,
-      });
+    onCountEvt(evtType, value) {
+      this.$emit("onCountEvt", { evtType, value });
 
       // NOTE Если этого не сделать, то vue не перерендерит this.count,
-      // потому что родитель при валидации может выставить пердыдущее значение,
+      // потому что родитель при валидации может выставить предыдущее значение,
       // предыдущее значение может не изменить пропс,
       // в следствии чего не будет перерендера
       this.$forceUpdate();

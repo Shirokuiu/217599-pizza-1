@@ -1,42 +1,43 @@
 <template>
-  <ul class="additional-list">
-    <CartAdditionalItem
-      v-for="(additional, idx) of additionalItems"
-      :key="additional.id"
-      :additional-item="additional"
-      @onCountUpdate="
-        onCountUpdate($event, idx, 'Cart', 'additionalItems', countAction)
-      "
-    />
-  </ul>
+  <div class="cart__additional">
+    <ul class="additional-list">
+      <CartAdditionalListItem
+        v-for="additional in additionals"
+        :key="additional.id"
+        :additional="additional"
+        @onCountChange="onCountChange($event, additional.id)"
+      />
+    </ul>
+  </div>
 </template>
 
 <script>
+import CartAdditionalListItem from "@/modules/cart/components/CartAdditionalListItem";
 import { mapActions, mapState } from "vuex";
-import CartAdditionalItem from "src/modules/cart/components/CartAddtionalItem";
-import { onCountUpdate } from "src/common/helpers";
 
 export default {
-  name: "CartAdditionalList",
+  name: "CartAdditionalLIst",
 
   components: {
-    CartAdditionalItem,
+    CartAdditionalListItem,
   },
 
   computed: {
-    ...mapState("Cart", ["additionalItems"]),
+    ...mapState("Cart/CartAdditionalList", ["additionals"]),
   },
 
   created() {
-    this.getMisc();
+    this.fetchAdditionals();
   },
 
   methods: {
-    ...mapActions(["countAction"]),
-    ...mapActions("Cart", ["getMisc"]),
+    ...mapActions("Cart/CartAdditionalList", [
+      "fetchAdditionals",
+      "countChange",
+    ]),
 
-    onCountUpdate(countActionData, currentIndex, module, entity, action) {
-      onCountUpdate(countActionData, currentIndex, module, entity, action);
+    onCountChange(evtData, additionalId) {
+      this.countChange({ evtData, additionalId });
     },
   },
 };

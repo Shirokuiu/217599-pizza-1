@@ -2,10 +2,11 @@
   <button
     type="button"
     class="button"
+    :class="{ 'button--disabled': isDisabled }"
     :disabled="isDisabled"
-    @click="$emit('onCLickBtn')"
+    @click="onBtnClick"
   >
-    {{ text }}
+    {{ description }}
   </button>
 </template>
 
@@ -14,14 +15,19 @@ export default {
   name: "AppBtn",
 
   props: {
-    text: {
+    description: {
       type: String,
       default: "Кнопка",
     },
-
     isDisabled: {
       type: Boolean,
       default: false,
+    },
+  },
+
+  methods: {
+    onBtnClick() {
+      this.$emit("onBtnClick");
     },
   },
 };
