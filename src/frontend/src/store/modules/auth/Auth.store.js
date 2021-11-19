@@ -77,9 +77,9 @@ export default {
 
         commit(SET_USER, currentUser);
       } catch (e) {
-        const { response } = e;
+        const { status } = e;
 
-        if (response.status === UNAUTHORIZED) {
+        if (status === UNAUTHORIZED) {
           JWT.destroyToken();
           this.$api.auth.setAuthHeader();
           dispatch("toggleIsAuth", false);
