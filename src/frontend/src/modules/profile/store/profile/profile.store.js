@@ -29,10 +29,6 @@ export default {
       });
 
       dispatch("ProfileAddressList/addAddress", newAddress);
-
-      return new Promise((resolve) => {
-        resolve();
-      });
     },
   },
 

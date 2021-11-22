@@ -64,12 +64,12 @@ export default {
   methods: {
     ...mapActions("Profile", ["addNewAddress", "buildAddressForm"]),
 
-    onActionForm({ action, data }) {
+    async onActionForm({ action, data }) {
       switch (action) {
         case BtnActions.Save:
-          this.addNewAddress(data).then(() => {
-            this.closeForm();
-          });
+          await this.addNewAddress(data);
+
+          this.closeForm();
           break;
         case BtnActions.Cancel:
           this.closeForm();
