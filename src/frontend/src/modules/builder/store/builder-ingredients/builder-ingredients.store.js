@@ -7,9 +7,12 @@ import {
   INGREDIENT_DROP,
   RESET_STATE,
 } from "@/modules/builder/store/builder-ingredients/mutation-types";
-import { normalizeIngredients } from "@/modules/builder/helpers";
+import {
+  CacheController,
+  normalizeIngredients,
+} from "@/modules/builder/helpers";
 import { Count } from "@/common/helpers/Count";
-import { CacheController, getIngredientsPrice } from "@/common/helpers";
+import { getIngredientsPrice } from "@/common/helpers";
 import { CommitDataMutation } from "@/modules/builder/store/builder-ingredients/constants";
 
 const cacheController = new CacheController();

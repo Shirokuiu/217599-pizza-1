@@ -1,10 +1,10 @@
-import { normalizeDougs } from "@/modules/builder/helpers";
+import { CacheController, normalizeDougs } from "@/modules/builder/helpers";
 import {
   RESET_STATE,
   SET_DOUGHS,
   CHANGE_DOUGH,
 } from "@/modules/builder/store/builder-dough/mutation-types";
-import { CacheController, getChecked } from "@/common/helpers";
+import { getChecked } from "@/common/helpers";
 
 let cacheController = new CacheController();
 

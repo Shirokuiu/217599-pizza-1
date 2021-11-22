@@ -3,8 +3,9 @@ import {
   SAUCE_CHANGE,
   RESET_STATE,
 } from "@/modules/builder/store/builder-sauce/mutation-types";
-import { CacheController, getChecked } from "@/common/helpers";
-import { normalizeSauces } from "@/modules/builder/helpers";
+import { getChecked } from "@/common/helpers";
+import { CacheController } from "@/modules/builder/helpers";
+import { normalizeSauces } from "@/modules/builder/store/builder-sauce/helpers";
 
 const cacheController = new CacheController();
 
