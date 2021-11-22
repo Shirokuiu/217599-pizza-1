@@ -23,7 +23,8 @@ const buildAddress = (rootGetters) => {
 
 const buildPhone = (rootGetters) => {
   const phone =
-    rootGetters["Cart/CartMakeOrder/currentFormAddress"].form.address.phone;
+    rootGetters["Cart/CartMakeOrder/currentFormAddress"].form.address.phone
+      .value;
   const isEmpty = phone.length === 0;
 
   return !isEmpty ? phone : undefined;
