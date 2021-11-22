@@ -1,15 +1,15 @@
-import { normalizeSauces } from "@/modules/builder/store/builder-sauce/helpers";
 import {
   SET_SAUCES,
   SAUCE_CHANGE,
   RESET_STATE,
 } from "@/modules/builder/store/builder-sauce/mutation-types";
-import { getChecked } from "@/common/helpers";
+import { CacheController, getChecked } from "@/common/helpers";
+import { normalizeSauces } from "@/modules/builder/helpers";
 
-let cacheSauces = [];
+const cacheController = new CacheController();
 
 const initialState = () => ({
-  sauces: cacheSauces,
+  sauces: cacheController.items,
 });
 
 export default {
@@ -45,12 +45,14 @@ export default {
       commit(RESET_STATE);
     },
 
-    async fetchSauces({ commit }) {
-      if (!cacheSauces.length) {
-        cacheSauces = normalizeSauces(await this.$api.sauces.get());
-      }
+    async fetchSauces({ commit }, { cache } = { cache: true }) {
+      await cacheController.run({
+        cache,
+        api: () => this.$api.sauces.get(),
+        normalize: normalizeSauces,
+      });
 
-      commit(SET_SAUCES, cacheSauces);
+      commit(SET_SAUCES, cacheController.items);
     },
 
     setSauces({ commit }, sauces) {

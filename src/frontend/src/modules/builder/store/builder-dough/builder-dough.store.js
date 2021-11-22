@@ -4,9 +4,9 @@ import {
   SET_DOUGHS,
   CHANGE_DOUGH,
 } from "@/modules/builder/store/builder-dough/mutation-types";
-import { getChecked } from "@/common/helpers";
+import { CacheController, getChecked } from "@/common/helpers";
 
-let cacheDoughs = [];
+let cacheController = new CacheController();
 
 export default {
   namespaced: true,
@@ -39,12 +39,14 @@ export default {
   },
 
   actions: {
-    async fetchDoughs({ commit }) {
-      if (!cacheDoughs.length) {
-        cacheDoughs = normalizeDougs(await this.$api.dough.get());
-      }
+    async fetchDoughs({ commit }, { cache } = { cache: true }) {
+      await cacheController.run({
+        cache,
+        api: () => this.$api.dough.get(),
+        normalize: normalizeDougs,
+      });
 
-      commit(SET_DOUGHS, cacheDoughs);
+      commit(SET_DOUGHS, cacheController.items);
     },
 
     setDoughs({ commit }, doughs) {
@@ -56,7 +58,7 @@ export default {
     },
 
     resetState({ commit }) {
-      commit(RESET_STATE, cacheDoughs);
+      commit(RESET_STATE, cacheController.items);
     },
   },
 };

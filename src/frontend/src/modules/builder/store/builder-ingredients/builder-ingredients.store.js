@@ -9,13 +9,13 @@ import {
 } from "@/modules/builder/store/builder-ingredients/mutation-types";
 import { normalizeIngredients } from "@/modules/builder/helpers";
 import { Count } from "@/common/helpers/Count";
-import { getIngredientsPrice } from "@/common/helpers";
+import { CacheController, getIngredientsPrice } from "@/common/helpers";
 import { CommitDataMutation } from "@/modules/builder/store/builder-ingredients/constants";
 
-let cacheIngredients = [];
+const cacheController = new CacheController();
 
 const initialState = () => ({
-  ingredients: cloneDeep(cacheIngredients),
+  ingredients: cloneDeep(cacheController.items),
 });
 
 export default {
@@ -62,14 +62,14 @@ export default {
       commit(RESET_STATE);
     },
 
-    async fetchIngredients({ commit }) {
-      if (!cacheIngredients.length) {
-        cacheIngredients = normalizeIngredients(
-          await this.$api.ingredients.get()
-        );
-      }
+    async fetchIngredients({ commit }, { cache } = { cache: true }) {
+      await cacheController.run({
+        cache,
+        api: () => this.$api.ingredients.get(),
+        normalize: normalizeIngredients,
+      });
 
-      commit(SET_INGREDIENTS, cloneDeep(cacheIngredients));
+      commit(SET_INGREDIENTS, cloneDeep(cacheController.items));
     },
 
     setIngredients({ commit }, ingredients) {

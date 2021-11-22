@@ -4,9 +4,9 @@ import {
   SET_SIZES,
 } from "@/modules/builder/store/builder-size/mutation-types";
 import { normalizeSizes } from "@/modules/builder/helpers";
-import { getChecked } from "@/common/helpers";
+import { CacheController, getChecked } from "@/common/helpers";
 
-let cacheSizes = [];
+const cacheController = new CacheController();
 
 export default {
   namespaced: true,
@@ -39,12 +39,14 @@ export default {
   },
 
   actions: {
-    async fetchSizes({ commit }) {
-      if (!cacheSizes.length) {
-        cacheSizes = normalizeSizes(await this.$api.sizes.get());
-      }
+    async fetchSizes({ commit }, { cache } = { cache: true }) {
+      await cacheController.run({
+        cache,
+        api: () => this.$api.sizes.get(),
+        normalize: normalizeSizes,
+      });
 
-      commit(SET_SIZES, cacheSizes);
+      commit(SET_SIZES, cacheController.items);
     },
 
     setSizes({ commit }, sizes) {
@@ -56,7 +58,7 @@ export default {
     },
 
     resetState({ commit }) {
-      commit(RESET_STATE, cacheSizes);
+      commit(RESET_STATE, cacheController.items);
     },
   },
 };
