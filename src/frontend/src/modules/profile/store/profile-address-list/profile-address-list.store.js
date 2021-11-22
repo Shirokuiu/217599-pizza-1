@@ -10,9 +10,7 @@ import {
   patchFormValues,
   buildFormAddresses,
 } from "@/modules/profile/store/profile-address-list/helpers";
-
-//NOTE: Для того чтобы переключать режимы редактирования на одной кнопке
-let savedOldAddressId;
+import { SET_SAVED_OLD_ADDRESS_ID } from "@/modules/profile/store/profile/mutation-types";
 
 export default {
   namespaced: true,
@@ -20,6 +18,8 @@ export default {
   state: () => ({
     addresses: [],
     currentAddressId: undefined,
+    //NOTE: Для того чтобы переключать режимы редактирования на одной кнопке
+    savedOldAddressId: undefined,
   }),
 
   getters: {
@@ -31,6 +31,10 @@ export default {
   mutations: {
     [SET_ADDRESSES](state, addresses) {
       state.addresses = addresses;
+    },
+
+    [SET_SAVED_OLD_ADDRESS_ID](state, savedId) {
+      state.savedOldAddressId = savedId;
     },
 
     [ADD_ADDRESS](state, newAddress) {
@@ -97,12 +101,18 @@ export default {
       commit(SET_CURRENT_ADDRESS_ID, id);
     },
 
-    toggleEdit({ commit }, id) {
+    toggleEdit({ commit, dispatch, state }, id) {
       //NOTE: Для того чтобы переключать режимы редактирования на одной кнопке
+      const { savedOldAddressId } = state;
       const needClose = savedOldAddressId === id;
-      savedOldAddressId = savedOldAddressId === id ? undefined : id;
+      const savedId = savedOldAddressId === id ? undefined : id;
 
+      dispatch("setSavedOldAddressId", savedId);
       commit(TOGGLE_EDIT, { id, needClose });
+    },
+
+    setSavedOldAddressId({ commit }, savedId) {
+      commit(SET_SAVED_OLD_ADDRESS_ID, savedId);
     },
 
     async deleteAddress({ commit }, id) {
