@@ -1,19 +1,18 @@
 <template>
   <main class="content">
     <TheBuilder />
-    <router-view />
+    <router-view></router-view>
   </main>
 </template>
 
 <script>
-import TheBuilder from "src/modules/builder/components/TheBuilder";
+import TheBuilder from "@/modules/builder/components/TheBuilder";
 
 export default {
   name: "Index",
+
   components: {
     TheBuilder,
   },
 };
 </script>
-
-<style scoped></style>

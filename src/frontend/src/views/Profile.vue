@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import TheProfile from "src/modules/profile/components/TheProfile";
+import TheProfile from "@/modules/profile/components/TheProfile";
 
 export default {
   name: "Profile",

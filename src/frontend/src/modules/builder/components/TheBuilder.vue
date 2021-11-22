@@ -3,50 +3,43 @@
     <div class="content__wrapper">
       <h1 class="title title--big">Конструктор пиццы</h1>
 
-      <BuilderDoughSelector />
+      <BuilderDough />
 
-      <BuilderSizeSelector />
+      <BuilderSize />
 
-      <BuilderIngredientsSelector />
+      <BuilderIngredients />
 
-      <BuilderPriceCounter />
+      <BuilderMakeForm />
     </div>
   </form>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import BuilderDoughSelector from "src/modules/builder/components/BuilderDoughSelector";
-import BuilderSizeSelector from "src/modules/builder/components/BuilderSizeSelector";
-import BuilderIngredientsSelector from "src/modules/builder/components/BuilderIngredientsSelector";
-import BuilderPriceCounter from "src/modules/builder/components/BuilderPriceCounter";
+import BuilderDough from "@/modules/builder/components/BuilderDough";
+import BuilderSize from "@/modules/builder/components/BuilderSize";
+import BuilderIngredients from "@/modules/builder/components/BuilderIngredients";
+import BuilderMakeForm from "@/modules/builder/components/BuilderMakeForm";
+import { mapActions } from "vuex";
 
 export default {
   name: "TheBuilder",
 
   components: {
-    BuilderDoughSelector,
-    BuilderSizeSelector,
-    BuilderIngredientsSelector,
-    BuilderPriceCounter,
+    BuilderDough,
+    BuilderSize,
+    BuilderIngredients,
+    BuilderMakeForm,
   },
 
-  data() {
-    return {
-      cartItems: [],
-    };
-  },
-
-  computed: {
-    ...mapState("Builder", ["currentDough", "currentSize", "currentSauce"]),
-  },
-
-  destroyed() {
+  beforeDestroy() {
+    this.setEditPizzaId(undefined);
+    this.toggleEdit(false);
     this.resetState();
   },
 
   methods: {
     ...mapActions("Builder", ["resetState"]),
+    ...mapActions("Cart", ["setEditPizzaId", "toggleEdit"]),
   },
 };
 </script>

@@ -9,11 +9,11 @@
       Перейти к конструктору<br />чтоб собрать ещё одну пиццу
     </p>
     <div class="footer__price">
-      <b>Итого: {{ normalizedTotalPriceCart }} ₽</b>
+      <b>Итого: {{ totalPrice }} ₽</b>
     </div>
 
     <div class="footer__submit">
-      <button type="button" class="button" @click="$emit('openPopup')">
+      <button @click="onSubmitClick" type="button" class="button">
         Оформить заказ
       </button>
     </div>
@@ -22,16 +22,17 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { numberWithSpace } from "src/common/helpers";
 
 export default {
-  name: "CartFooter",
+  name: "CartFooter.vue",
 
   computed: {
-    ...mapGetters("Cart", ["totalPriceCart"]),
+    ...mapGetters("Cart", ["totalPrice"]),
+  },
 
-    normalizedTotalPriceCart() {
-      return numberWithSpace(this.totalPriceCart);
+  methods: {
+    onSubmitClick() {
+      this.$emit("onSubmit");
     },
   },
 };

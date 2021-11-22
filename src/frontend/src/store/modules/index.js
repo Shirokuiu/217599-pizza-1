@@ -1,7 +1,9 @@
-import Builder from "src/store/modules/builder/Builder.store";
-import Cart from "src/store/modules/cart/Сart.store";
+import Builder from "@/modules/builder/store/builder/builder.store";
+import Cart from "@/modules/cart/store/cart/cart.store";
+import Auth from "@/store/modules/auth/auth.store";
 
 export default {
+  Auth,
   Builder,
   Cart,
 };
