@@ -4,7 +4,6 @@ import {
 } from "@/modules/orders/store/orders-list/mutation-types";
 import { normalizeAdditionals } from "@/common/helpers";
 import { mapOrderList } from "@/modules/orders/store/orders-list/helpers";
-import router from "@/router";
 
 export default {
   namespaced: true,
@@ -51,8 +50,6 @@ export default {
           root: true,
         }
       );
-
-      router.push("/cart");
     },
 
     async deleteOrder({ commit }, id) {

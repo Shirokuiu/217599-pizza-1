@@ -72,18 +72,20 @@ export default {
   methods: {
     ...mapActions("Auth", ["login"]),
 
-    onSubmitClick() {
+    async onSubmitClick() {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        this.login({ email: this.email, password: this.password }).catch(
-          (e) => {
-            this.errorFromBack = {
-              hasError: true,
-              text: e.data.error.message,
-            };
-          }
-        );
+        try {
+          await this.login({ email: this.email, password: this.password });
+
+          this.$router.push("/");
+        } catch (e) {
+          this.errorFromBack = {
+            hasError: true,
+            text: e.data.error.message,
+          };
+        }
       }
     },
   },

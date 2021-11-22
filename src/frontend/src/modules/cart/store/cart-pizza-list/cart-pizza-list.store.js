@@ -12,7 +12,6 @@ import {
   buildCartPizza,
   updateCartPizza,
 } from "@/modules/cart/store/cart-pizza-list/helpers";
-import router from "@/router";
 
 const initialState = () => ({
   pizzaItems: [],
@@ -114,29 +113,27 @@ export default {
       const index = state.pizzaItems.findIndex(({ id }) => id === pizzaId);
       const currentPizzaItem = state.pizzaItems[index];
 
-      router.push("/").then(() => {
-        dispatch("Cart/setEditPizzaId", pizzaId, { root: true });
-        dispatch("Cart/toggleEdit", true, { root: true });
-        dispatch("Builder/BuilderDough/setDoughs", currentPizzaItem.doughs, {
-          root: true,
-        });
-        dispatch("Builder/BuilderSize/setSizes", currentPizzaItem.sizes, {
-          root: true,
-        });
-        dispatch("Builder/BuilderSauce/setSauces", currentPizzaItem.sauces, {
-          root: true,
-        });
-        dispatch(
-          "Builder/BuilderIngredients/setIngredients",
-          currentPizzaItem.ingredients,
-          { root: true }
-        );
-        dispatch(
-          "Builder/BuilderMakeForm/setPizzaName",
-          currentPizzaItem.pizzaName,
-          { root: true }
-        );
+      dispatch("Cart/setEditPizzaId", pizzaId, { root: true });
+      dispatch("Cart/toggleEdit", true, { root: true });
+      dispatch("Builder/BuilderDough/setDoughs", currentPizzaItem.doughs, {
+        root: true,
       });
+      dispatch("Builder/BuilderSize/setSizes", currentPizzaItem.sizes, {
+        root: true,
+      });
+      dispatch("Builder/BuilderSauce/setSauces", currentPizzaItem.sauces, {
+        root: true,
+      });
+      dispatch(
+        "Builder/BuilderIngredients/setIngredients",
+        currentPizzaItem.ingredients,
+        { root: true }
+      );
+      dispatch(
+        "Builder/BuilderMakeForm/setPizzaName",
+        currentPizzaItem.pizzaName,
+        { root: true }
+      );
     },
   },
 };

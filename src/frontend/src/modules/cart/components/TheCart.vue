@@ -34,7 +34,6 @@ import CartMakeOrder from "@/modules/cart/components/CartMakeOrder";
 import CartFooter from "@/modules/cart/components/CartFooter";
 import CartOrderSuccessPopup from "@/modules/cart/components/CartOrderSuccessPopup";
 import { mapActions, mapState } from "vuex";
-import router from "@/router";
 
 export default {
   name: "TheCart",
@@ -65,12 +64,12 @@ export default {
       this.toggleSuccessPopup(false);
 
       if (this.isAuth) {
-        router.push("user/orders");
+        this.$router.push("user/orders");
 
         return;
       }
 
-      router.push("/");
+      this.$router.push("/");
     },
 
     onSubmit() {

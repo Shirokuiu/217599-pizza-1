@@ -12,7 +12,6 @@
 
 <script>
 import LoginForm from "@/modules/login/components/LoginForm";
-import router from "@/router";
 
 export default {
   name: "Login",
@@ -23,7 +22,7 @@ export default {
 
   methods: {
     onCLoseClick() {
-      router.back();
+      this.$router.back();
     },
   },
 };

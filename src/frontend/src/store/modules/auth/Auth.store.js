@@ -3,7 +3,6 @@ import {
   TOGGLE_IS_AUTH,
 } from "src/store/modules/auth/mutation-types";
 import { JWT } from "@/services";
-import router from "src/router";
 
 const initialState = () => ({
   isAuth: false,
@@ -11,7 +10,6 @@ const initialState = () => ({
 });
 
 const UNAUTHORIZED = 401;
-const PROTECTED_ROUTE_NAMES = ["Orders", "Profile"];
 
 export default {
   namespaced: true,
@@ -45,7 +43,6 @@ export default {
         this.$api.auth.setAuthHeader();
         dispatch("toggleIsAuth", true);
         dispatch("getMe");
-        router.push("/");
       } catch (e) {
         return Promise.reject(e);
       }
@@ -58,10 +55,6 @@ export default {
         this.$api.auth.setAuthHeader();
         dispatch("toggleIsAuth", false);
         commit(SET_USER, undefined);
-
-        if (PROTECTED_ROUTE_NAMES.includes(router.history.current.name)) {
-          router.push("/");
-        }
       } catch (e) {
         return Promise.reject(e);
       }

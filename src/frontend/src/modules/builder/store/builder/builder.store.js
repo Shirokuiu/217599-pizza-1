@@ -8,8 +8,6 @@ import {
 } from "@/modules/builder/store/builder/helpers";
 import BuilderSauce from "@/modules/builder/store/builder-sauce/builder-sauce.store";
 
-import router from "@/router";
-
 export default {
   namespaced: true,
 
@@ -42,7 +40,6 @@ export default {
           buildEditToCart(rootState, rootGetters),
           { root: true }
         );
-        router.push("/cart");
       } else {
         dispatch(
           "Cart/CartPizzaList/add",

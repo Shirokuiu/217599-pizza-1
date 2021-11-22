@@ -32,8 +32,10 @@ export default {
       this.deleteOrder(id);
     },
 
-    makeOrder(order) {
-      this.repeatOrder(order);
+    async makeOrder(order) {
+      await this.repeatOrder(order);
+
+      this.$router.push("/cart");
     },
   },
 };

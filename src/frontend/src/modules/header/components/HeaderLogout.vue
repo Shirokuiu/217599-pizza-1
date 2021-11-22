@@ -26,6 +26,8 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+const PROTECTED_ROUTE_NAMES = ["Orders", "Profile"];
+
 export default {
   name: "HeaderLogout",
 
@@ -40,6 +42,10 @@ export default {
     async onLogout() {
       try {
         await this.logout();
+
+        if (PROTECTED_ROUTE_NAMES.includes(this.$route.name)) {
+          this.$router.push("/");
+        }
 
         this.resetState();
       } catch (e) {

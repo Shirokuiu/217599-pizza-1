@@ -32,7 +32,9 @@ export default {
       this.countChange({ evtData, pizzaId });
     },
 
-    onEdit(pizzaId) {
+    async onEdit(pizzaId) {
+      await this.$router.push("/");
+
       this.edit(pizzaId);
     },
   },

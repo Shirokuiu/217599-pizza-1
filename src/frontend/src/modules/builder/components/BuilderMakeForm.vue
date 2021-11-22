@@ -59,6 +59,7 @@ export default {
       "isMakeEnabled",
     ]),
     ...mapState("Builder/BuilderMakeForm", ["pizzaName"]),
+    ...mapState("Cart", ["isEdit"]),
   },
 
   methods: {
@@ -82,8 +83,12 @@ export default {
       this.setPizzaName(evt.target.value);
     },
 
-    onMakePizzaClick() {
-      this.makePizza();
+    async onMakePizzaClick() {
+      await this.makePizza();
+
+      if (this.isEdit) {
+        this.$router.push("/cart");
+      }
     },
   },
 };
