@@ -5,7 +5,7 @@ import {
 } from "@/modules/builder/store/builder-sauce/mutation-types";
 import { getChecked } from "@/common/helpers";
 import { CacheController } from "@/modules/builder/helpers";
-import { normalizeSauces } from "@/modules/builder/store/builder-sauce/helpers";
+import { normalize } from "@/modules/builder/store/builder-sauce/helpers";
 
 const cacheController = new CacheController();
 
@@ -48,9 +48,9 @@ export default {
 
     async fetchSauces({ commit }, { cache } = { cache: true }) {
       await cacheController.run({
-        cache,
         api: () => this.$api.sauces.get(),
-        normalize: normalizeSauces,
+        normalize,
+        cache,
       });
 
       commit(SET_SAUCES, cacheController.items);

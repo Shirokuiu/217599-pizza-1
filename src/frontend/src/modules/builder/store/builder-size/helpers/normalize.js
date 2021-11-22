@@ -4,7 +4,7 @@ const SizeClasses = {
   3: "big",
 };
 
-export const normalizeSizes = (sizes) =>
+export const normalize = (sizes) =>
   sizes.map((size, index) => ({
     ...size,
     classMod: SizeClasses[size.multiplier],

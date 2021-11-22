@@ -9,7 +9,7 @@ const DoughClasses = [
   },
 ];
 
-export const normalizeDougs = (doughs) =>
+export const normalize = (doughs) =>
   doughs.map((dough, index) => ({
     ...dough,
     classMod: DoughClasses.find(({ name }) => name === dough.name).value,

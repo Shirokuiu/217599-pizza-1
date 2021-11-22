@@ -65,7 +65,7 @@ const IngredientClasses = [
   },
 ];
 
-export const normalizeIngredients = (ingredients) =>
+export const normalize = (ingredients) =>
   ingredients.map((ingredient) => ({
     ...ingredient,
     classMod: IngredientClasses.find(({ name }) => name === ingredient.name)

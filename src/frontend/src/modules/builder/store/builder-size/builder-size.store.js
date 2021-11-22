@@ -3,8 +3,9 @@ import {
   CHANGE_SIZE,
   SET_SIZES,
 } from "@/modules/builder/store/builder-size/mutation-types";
-import { CacheController, normalizeSizes } from "@/modules/builder/helpers";
+import { CacheController } from "@/modules/builder/helpers";
 import { getChecked } from "@/common/helpers";
+import { normalize } from "@/modules/builder/store/builder-size/helpers/normalize";
 
 const cacheController = new CacheController();
 
@@ -41,9 +42,9 @@ export default {
   actions: {
     async fetchSizes({ commit }, { cache } = { cache: true }) {
       await cacheController.run({
-        cache,
         api: () => this.$api.sizes.get(),
-        normalize: normalizeSizes,
+        normalize,
+        cache,
       });
 
       commit(SET_SIZES, cacheController.items);

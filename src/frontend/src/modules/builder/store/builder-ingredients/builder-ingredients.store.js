@@ -7,13 +7,11 @@ import {
   INGREDIENT_DROP,
   RESET_STATE,
 } from "@/modules/builder/store/builder-ingredients/mutation-types";
-import {
-  CacheController,
-  normalizeIngredients,
-} from "@/modules/builder/helpers";
+import { CacheController } from "@/modules/builder/helpers";
 import { Count } from "@/common/helpers/Count";
 import { getIngredientsPrice } from "@/common/helpers";
 import { CommitDataMutation } from "@/modules/builder/store/builder-ingredients/constants";
+import { normalize } from "@/modules/builder/store/builder-ingredients/helpers";
 
 const cacheController = new CacheController();
 
@@ -67,9 +65,9 @@ export default {
 
     async fetchIngredients({ commit }, { cache } = { cache: true }) {
       await cacheController.run({
-        cache,
         api: () => this.$api.ingredients.get(),
-        normalize: normalizeIngredients,
+        normalize,
+        cache,
       });
 
       commit(SET_INGREDIENTS, cloneDeep(cacheController.items));

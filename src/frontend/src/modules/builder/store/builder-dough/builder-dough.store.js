@@ -1,10 +1,11 @@
-import { CacheController, normalizeDougs } from "@/modules/builder/helpers";
+import { CacheController } from "@/modules/builder/helpers";
 import {
   RESET_STATE,
   SET_DOUGHS,
   CHANGE_DOUGH,
 } from "@/modules/builder/store/builder-dough/mutation-types";
 import { getChecked } from "@/common/helpers";
+import { normalize } from "@/modules/builder/store/builder-dough/helpers";
 
 let cacheController = new CacheController();
 
@@ -41,9 +42,9 @@ export default {
   actions: {
     async fetchDoughs({ commit }, { cache } = { cache: true }) {
       await cacheController.run({
-        cache,
         api: () => this.$api.dough.get(),
-        normalize: normalizeDougs,
+        normalize,
+        cache,
       });
 
       commit(SET_DOUGHS, cacheController.items);
