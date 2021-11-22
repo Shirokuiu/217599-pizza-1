@@ -17,18 +17,12 @@ export default {
   },
 
   created() {
-    this.fetchDoughs();
-    this.fetchSizes();
-    this.fetchSauces();
-    this.fetchIngredients();
+    this.init();
   },
 
   methods: {
     ...mapActions("Auth", ["checkIsAuth"]),
-    ...mapActions("Builder/BuilderDough", ["fetchDoughs"]),
-    ...mapActions("Builder/BuilderSize", ["fetchSizes"]),
-    ...mapActions("Builder/BuilderSauce", ["fetchSauces"]),
-    ...mapActions("Builder/BuilderIngredients", ["fetchIngredients"]),
+    ...mapActions("Builder", ["init"]),
   },
 };
 </script>

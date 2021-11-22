@@ -23,6 +23,13 @@ export default {
   },
 
   actions: {
+    init({ dispatch }) {
+      dispatch("BuilderDough/fetchDoughs");
+      dispatch("BuilderSize/fetchSizes");
+      dispatch("BuilderSauce/fetchSauces");
+      dispatch("BuilderIngredients/fetchIngredients");
+    },
+
     resetState({ dispatch }) {
       dispatch("Builder/BuilderDough/resetState", undefined, { root: true });
       dispatch("Builder/BuilderSize/resetState", undefined, { root: true });
