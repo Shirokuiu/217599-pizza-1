@@ -15,12 +15,14 @@
       <div class="content__constructor">
         <div :class="`pizza pizza--foundation--${sizeClass}`">
           <div class="pizza__wrapper">
-            <div
-              v-for="fillingClass in fillingClasses"
-              class="pizza__filling"
-              :class="fillingClass"
-              :key="fillingClass"
-            ></div>
+            <transition-group name="replace">
+              <div
+                v-for="fillingClass in fillingClasses"
+                class="pizza__filling"
+                :class="fillingClass"
+                :key="fillingClass"
+              ></div>
+            </transition-group>
           </div>
         </div>
       </div>

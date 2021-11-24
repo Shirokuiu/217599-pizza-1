@@ -1,7 +1,10 @@
 <template>
   <div class="app__wrap">
     <TheHeader />
-    <router-view></router-view>
+
+    <transition name="slide" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 

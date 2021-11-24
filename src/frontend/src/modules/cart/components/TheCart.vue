@@ -18,11 +18,14 @@
       </div>
     </main>
     <CartFooter v-if="pizzaItems.length" @onSubmit="onSubmit" />
-    <CartOrderSuccessPopup
-      v-if="isSuccessPopupShow"
-      @onClose="closePopup"
-      @onSubmit="closeAndRedirect"
-    />
+
+    <transition name="slide-top" mode="in-out">
+      <CartOrderSuccessPopup
+        v-if="isSuccessPopupShow"
+        @onClose="closePopup"
+        @onSubmit="closeAndRedirect"
+      />
+    </transition>
   </form>
 </template>
 
